@@ -1,0 +1,61 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import Header from './components/Header';
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
+import AdminLayout from './components/AdminLayout';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import DashboardPage from './pages/DashboardPage';
+import PaymentPage from './pages/PaymentPage';
+import PaymentCallbackPage from './pages/PaymentCallbackPage';
+import CreatePackagePage from './pages/CreatePackagePage';
+import TrackingPage from './pages/TrackingPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import TermsModal from './components/TermsModal';
+
+function App() {
+  const { user, reloadUser } = useAuth();
+  const needsToAcceptTerms = user && !user.terms_acceptance?.accepted;
+
+  return (
+    <Router>
+      <Header />
+      {needsToAcceptTerms && <TermsModal onAccept={reloadUser} />}
+      <main style={{ filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/track" element={<TrackingPage />} />
+          <Route path="/track/:trackingCode" element={<TrackingPage />} />
+          <Route path="/payment/callback" element={<PaymentCallbackPage />} />
+
+          {/* Protected User Routes */}
+          <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+          <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
+          <Route path="/create-package" element={<PrivateRoute><CreatePackagePage /></PrivateRoute>} />
+
+          {/* Protected Admin Routes */}
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<AdminDashboardPage />} />
+            {/* Add other admin routes here, e.g., */}
+            {/* <Route path="users" element={<UserManagementPage />} /> */}
+          </Route>
+
+        </Routes>
+      </main>
+    </Router>
+  );
+}
+
+const HomePage = () => (
+  <div style={{ textAlign: 'center' }}>
+    <h1 style={{ color: '#FF6F00' }}>Welcome to ParcelSim Express</h1>
+    <p>Your reliable partner for production courier tracking.</p>
+  </div>
+);
+
+export default App;
