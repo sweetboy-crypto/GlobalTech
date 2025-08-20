@@ -32,6 +32,7 @@ const DashboardPage = () => {
             <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto', filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
                 <h1 style={{ color: '#FF6F00' }}>Dashboard</h1>
                 <p>Welcome to your dashboard. Here you can manage your packages.</p>
+                {user && <p style={{ border: '1px solid #FF6F00', padding: '10px', backgroundColor: '#fff0e6' }}><b>Your role:</b> {user.role}</p>}
 
             <Link to="/payment">
                 <button style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '15px 30px', border: 'none', cursor: 'pointer', fontSize: '18px', borderRadius: '5px', marginTop: '20px' }}>
