@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const SignupPage = () => {
     const [formData, setFormData] = useState({
@@ -7,6 +7,7 @@ const SignupPage = () => {
         email: '',
         phone: '',
         password: '',
+        secret_key: '',
     });
     const [message, setMessage] = useState('');
 
@@ -17,7 +18,7 @@ const SignupPage = () => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('/api/users/register', formData);
+            const res = await api.post('/users/register', formData);
             setMessage('Registration successful! Please check your email to verify your account.');
         } catch (err) {
             setMessage(err.response.data.msg || 'An error occurred');
@@ -71,6 +72,16 @@ const SignupPage = () => {
                         onChange={onChange}
                         minLength="6"
                         required
+                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
+                    />
+                </div>
+                <div>
+                    <input
+                        type="password"
+                        placeholder="Admin Secret Key (optional)"
+                        name="secret_key"
+                        value={formData.secret_key}
+                        onChange={onChange}
                         style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
                     />
                 </div>

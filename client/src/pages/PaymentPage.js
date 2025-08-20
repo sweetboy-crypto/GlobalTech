@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const PaymentPage = () => {
     const [message, setMessage] = useState('');
@@ -9,19 +9,7 @@ const PaymentPage = () => {
         setLoading(true);
         setMessage('');
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setMessage('You must be logged in to make a payment.');
-                setLoading(false);
-                return;
-            }
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            };
-            const res = await axios.post('/api/payments/initiate', {}, config);
+            const res = await api.post('/payments/initiate');
             if (res.data.authorization_url) {
                 window.location.href = res.data.authorization_url;
             }

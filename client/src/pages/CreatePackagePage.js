@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const CreatePackagePage = () => {
@@ -27,14 +27,7 @@ const CreatePackagePage = () => {
         e.preventDefault();
         setMessage('');
         try {
-            const token = localStorage.getItem('token');
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            };
-            const res = await axios.post('/api/packages', formData, config);
+            const res = await api.post('/packages', formData);
             setMessage('Package created successfully!');
             navigate(`/track/${res.data.tracking_code}`);
         } catch (err) {
