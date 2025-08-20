@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const AuthContext = createContext();
 
@@ -14,13 +14,11 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
         const token = localStorage.getItem('token');
         if (token) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             try {
-                const res = await axios.get('/api/users/me');
+                const res = await api.get('/users/me');
                 setUser(res.data);
             } catch (err) {
                 localStorage.removeItem('token');
-                delete axios.defaults.headers.common['Authorization'];
                 setUser(null);
             }
         }
@@ -32,18 +30,16 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
-        const config = { headers: { 'Content-Type': 'application/json' } };
         const body = { email, password };
-        const res = await axios.post('/api/users/login', body, config);
+        const res = await api.post('/users/login', body);
         localStorage.setItem('token', res.data.token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-        const userRes = await axios.get('/api/users/me');
+        // The interceptor will now use this new token for subsequent requests
+        const userRes = await api.get('/users/me');
         setUser(userRes.data);
     };
 
     const logout = () => {
         localStorage.removeItem('token');
-        delete axios.defaults.headers.common['Authorization'];
         setUser(null);
     };
 

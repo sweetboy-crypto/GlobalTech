@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const AdminDashboardPage = () => {
     const [stats, setStats] = useState(null);
@@ -8,9 +8,7 @@ const AdminDashboardPage = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const config = { headers: { 'Authorization': `Bearer ${token}` } };
-                const res = await axios.get('/api/admin/dashboard/stats', config);
+                const res = await api.get('/admin/dashboard/stats');
                 setStats(res.data);
             } catch (err) {
                 setMessage('Could not fetch admin stats.');

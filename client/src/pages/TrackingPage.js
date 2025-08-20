@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 
 const TrackingPage = () => {
     const { trackingCode: urlTrackingCode } = useParams();
@@ -15,7 +15,7 @@ const TrackingPage = () => {
         setPackageDetails(null);
         setHistory([]);
         try {
-            const res = await axios.get(`/api/packages/track/${code}`);
+            const res = await api.get(`/packages/track/${code}`);
             setPackageDetails(res.data.package);
             setHistory(res.data.history);
         } catch (err) {
