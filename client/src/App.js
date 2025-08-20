@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
@@ -16,14 +15,10 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import TermsModal from './components/TermsModal';
 
 function App() {
-  const { user, reloadUser } = useAuth();
-  const needsToAcceptTerms = user && !user.terms_acceptance?.accepted;
-
   return (
     <Router>
       <Header />
-      {needsToAcceptTerms && <TermsModal onAccept={reloadUser} />}
-      <main style={{ filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
+      <main>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
