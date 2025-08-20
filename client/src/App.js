@@ -12,7 +12,7 @@ import PaymentCallbackPage from './pages/PaymentCallbackPage';
 import CreatePackagePage from './pages/CreatePackagePage';
 import TrackingPage from './pages/TrackingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
-import TermsModal from './components/TermsModal';
+import UserManagementPage from './pages/admin/UserManagementPage';
 
 function App() {
   return (
@@ -36,8 +36,7 @@ function App() {
           {/* Protected Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
             <Route index element={<AdminDashboardPage />} />
-            {/* Add other admin routes here, e.g., */}
-            {/* <Route path="users" element={<UserManagementPage />} /> */}
+            <Route path="users" element={<UserManagementPage />} />
           </Route>
 
         </Routes>
