@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import api from '../services/api';
 
 const TermsModal = ({ onAccept }) => {
     const [isChecked, setIsChecked] = useState(false);
@@ -9,7 +8,7 @@ const TermsModal = ({ onAccept }) => {
     const handleAccept = async () => {
         if (isChecked) {
             try {
-                await axios.post('/api/users/accept-terms');
+                await api.post('/users/accept-terms');
                 onAccept();
             } catch (err) {
                 setError('Could not accept terms. Please try again.');
