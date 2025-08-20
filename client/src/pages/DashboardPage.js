@@ -33,9 +33,9 @@ const DashboardPage = () => {
                 <h1 style={{ color: '#FF6F00' }}>Dashboard</h1>
                 <p>Welcome to your dashboard. Here you can manage your packages.</p>
 
-                <Link to="/create-package">
-                    <button style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '10px 20px', border: 'none', cursor: 'pointer', marginBottom: '20px' }}>
-                        Create New Package
+            <Link to="/payment">
+                <button style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '15px 30px', border: 'none', cursor: 'pointer', fontSize: '18px', borderRadius: '5px', marginTop: '20px' }}>
+                    Buy New Tracking Code
                     </button>
                 </Link>
 
