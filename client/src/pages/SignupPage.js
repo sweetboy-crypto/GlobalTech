@@ -66,7 +66,7 @@ const SignupPage = () => {
                 <div>
                     <input
                         type="password"
-                        placeholder="Password"
+                        placeholder="Your Account Password"
                         name="password"
                         value={password}
                         onChange={onChange}
@@ -78,7 +78,7 @@ const SignupPage = () => {
                 <div>
                     <input
                         type="password"
-                        placeholder="Admin Secret Key (optional)"
+                        placeholder="Admin Creation Key (optional)"
                         name="secret_key"
                         value={formData.secret_key}
                         onChange={onChange}
