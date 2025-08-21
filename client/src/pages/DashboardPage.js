@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import TermsModal from '../components/TermsModal';
+import styles from './Dashboard.module.css'; // Use the new dashboard styles
 
 const DashboardPage = () => {
     const { user, reloadUser } = useAuth();
@@ -12,7 +13,6 @@ const DashboardPage = () => {
     const needsToAcceptTerms = user && !user.terms_acceptance?.accepted;
 
     useEffect(() => {
-        // Do not fetch packages if the user needs to accept terms
         if (user && !needsToAcceptTerms) {
             const fetchPackages = async () => {
                 try {
@@ -29,33 +29,37 @@ const DashboardPage = () => {
     return (
         <>
             {needsToAcceptTerms && <TermsModal onAccept={reloadUser} />}
-            <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto', filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
-                <h1 style={{ color: '#FF6F00' }}>Dashboard</h1>
-                <p>Welcome to your dashboard. Here you can manage your packages.</p>
-                {user && <p style={{ border: '1px solid #FF6F00', padding: '10px', backgroundColor: '#fff0e6' }}><b>Your role:</b> {user.role}</p>}
+            <div className={styles.dashboardContainer} style={{ filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Your Dashboard</h1>
+                    <Link to="/payment" className={styles.button}>
+                        Buy New Tracking Code
+                    </Link>
+                </div>
 
-            <Link to="/payment">
-                <button style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '15px 30px', border: 'none', cursor: 'pointer', fontSize: '18px', borderRadius: '5px', marginTop: '20px' }}>
-                    Buy New Tracking Code
-                    </button>
-                </Link>
+                {user && <p style={{ border: '1px solid #FF6F00', padding: '10px', backgroundColor: '#fff0e6', marginBottom: '2rem', borderRadius: '5px' }}><b>Your role:</b> {user.role}</p>}
 
-            <h2 style={{ color: '#000000' }}>Your Packages</h2>
-            {message && <p style={{ color: 'red' }}>{message}</p>}
-            {packages.length > 0 ? (
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                    {packages.map(pkg => (
-                        <li key={pkg._id} style={{ border: '1px solid #ddd', padding: '15px', marginBottom: '10px', borderRadius: '5px' }}>
-                            <Link to={`/track/${pkg.tracking_code}`} style={{ textDecoration: 'none', color: '#FF6F00', fontWeight: 'bold' }}>
-                                {pkg.tracking_code}
-                            </Link>
-                            <p style={{ margin: '5px 0 0', color: '#333' }}>Status: {pkg.current_status}</p>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>You have not created any packages yet.</p>
-            )}
+                <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Your Packages</h2>
+                {message && <p style={{ color: 'red' }}>{message}</p>}
+                {packages.length > 0 ? (
+                    <ul className={styles.packageList}>
+                        {packages.map(pkg => (
+                            <li key={pkg._id} className={styles.packageItem}>
+                                <div>
+                                    <Link to={`/track/${pkg.tracking_code}`} className={styles.trackingCode}>
+                                        {pkg.tracking_code}
+                                    </Link>
+                                    <p style={{ margin: '5px 0 0', color: '#555' }}>To: {pkg.receiver_name} in {pkg.destination_city}</p>
+                                </div>
+                                <span className={styles.status} style={{ backgroundColor: '#e9e9e9', color: '#333' }}>
+                                    {pkg.current_status}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>You have not created any packages yet.</p>
+                )}
             </div>
         </>
     );

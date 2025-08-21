@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import styles from './AuthForm.module.css';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({
@@ -26,35 +27,37 @@ const LoginPage = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#FFFFFF', color: '#000000', padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <h1 style={{ color: '#FF6F00' }}>Login</h1>
-            {message && <p>{message}</p>}
-            <form onSubmit={onSubmit}>
-                <div>
-                    <input
-                        type="email"
-                        placeholder="Email Address"
-                        name="email"
-                        value={email}
-                        onChange={onChange}
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        value={password}
-                        onChange={onChange}
-                        minLength="6"
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <input type="submit" value="Login" style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '10px 20px', border: 'none', cursor: 'pointer', width: '100%' }} />
-            </form>
+        <div className={styles.authContainer}>
+            <div className={styles.authCard}>
+                <h1 className={styles.authTitle}>Login</h1>
+                {message && <p className={`${styles.message} ${styles.error}`}>{message}</p>}
+                <form onSubmit={onSubmit}>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            name="email"
+                            value={email}
+                            onChange={onChange}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={onChange}
+                            minLength="6"
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <button type="submit" className={styles.button}>Login</button>
+                </form>
+            </div>
         </div>
     );
 };
