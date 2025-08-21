@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import tableStyles from './Table.module.css'; // Import table styles
 
 const UserManagementPage = () => {
     const [users, setUsers] = useState([]);
@@ -30,31 +31,33 @@ const UserManagementPage = () => {
 
     return (
         <div>
-            <h1 style={{ color: '#FF6F00' }}>User Management</h1>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>Name</th>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>Email</th>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>Phone</th>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>Role</th>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>Email Verified</th>
-                        <th style={{ padding: '10px', border: '1px solid #ddd' }}>KYC Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map(user => (
-                        <tr key={user._id}>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.name}</td>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.email}</td>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.phone}</td>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.role}</td>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.email_verified ? 'Yes' : 'No'}</td>
-                            <td style={{ padding: '10px', border: '1px solid #ddd' }}>{user.kyc_status}</td>
+            <h1 style={{ color: 'var(--primary-orange)', marginBottom: '2rem' }}>User Management</h1>
+            <div className={tableStyles.tableWrapper}>
+                <table className={tableStyles.table}>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Email Verified</th>
+                            <th>KYC Status</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map(user => (
+                            <tr key={user._id}>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phone}</td>
+                                <td>{user.role}</td>
+                                <td>{user.email_verified ? 'Yes' : 'No'}</td>
+                                <td>{user.kyc_status}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

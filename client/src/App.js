@@ -13,6 +13,7 @@ import CreatePackagePage from './pages/CreatePackagePage';
 import TrackingPage from './pages/TrackingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -44,12 +45,5 @@ function App() {
     </Router>
   );
 }
-
-const HomePage = () => (
-  <div style={{ textAlign: 'center' }}>
-    <h1 style={{ color: '#FF6F00' }}>Welcome to ParcelSim Express</h1>
-    <p>Your reliable partner for production courier tracking.</p>
-  </div>
-);
 
 export default App;

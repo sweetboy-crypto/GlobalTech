@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import styles from './Dashboard.module.css'; // Use the new dashboard styles
 
 const AdminDashboardPage = () => {
     const [stats, setStats] = useState(null);
@@ -18,22 +19,22 @@ const AdminDashboardPage = () => {
     }, []);
 
     return (
-        <div style={{ padding: '20px', maxWidth: '1000px', margin: 'auto' }}>
-            <h1 style={{ color: '#FF6F00' }}>Admin Dashboard</h1>
+        <div>
+            <h1 className={styles.title} style={{ marginBottom: '2rem' }}>Admin Dashboard</h1>
             {message && <p style={{ color: 'red' }}>{message}</p>}
             {stats ? (
-                <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'center' }}>
-                    <div style={{ backgroundColor: '#f4f4f4', padding: '20px', borderRadius: '5px' }}>
-                        <h2 style={{ color: '#000000' }}>Total Users</h2>
-                        <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalUsers}</p>
+                <div className={styles.statsGrid}>
+                    <div className={styles.statCard}>
+                        <h3>Total Users</h3>
+                        <p>{stats.totalUsers}</p>
                     </div>
-                    <div style={{ backgroundColor: '#f4f4f4', padding: '20px', borderRadius: '5px' }}>
-                        <h2 style={{ color: '#000000' }}>Total Payments (NGN)</h2>
-                        <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalPayments.toLocaleString()}</p>
+                    <div className={styles.statCard}>
+                        <h3>Total Payments (NGN)</h3>
+                        <p>{stats.totalPayments.toLocaleString()}</p>
                     </div>
-                    <div style={{ backgroundColor: '#f4f4f4', padding: '20px', borderRadius: '5px' }}>
-                        <h2 style={{ color: '#000000' }}>Total Packages</h2>
-                        <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalPackages}</p>
+                    <div className={styles.statCard}>
+                        <h3>Total Packages</h3>
+                        <p>{stats.totalPackages}</p>
                     </div>
                 </div>
             ) : (

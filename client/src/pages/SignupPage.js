@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import styles from './AuthForm.module.css';
 
 const SignupPage = () => {
     const [formData, setFormData] = useState({
@@ -10,83 +11,89 @@ const SignupPage = () => {
         secret_key: '',
     });
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
-    const { name, email, phone, password } = formData;
+    const { name, email, phone, password, secret_key } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
+        setMessage('');
+        setError('');
         try {
-            const res = await api.post('/users/register', formData);
+            await api.post('/users/register', formData);
             setMessage('Registration successful! Please check your email to verify your account.');
         } catch (err) {
-            setMessage(err.response.data.msg || 'An error occurred');
+            setError(err.response?.data?.msg || 'An error occurred');
         }
     };
 
     return (
-        <div style={{ backgroundColor: '#FFFFFF', color: '#000000', padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <h1 style={{ color: '#FF6F00' }}>Sign Up</h1>
-            {message && <p>{message}</p>}
-            <form onSubmit={onSubmit}>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        name="name"
-                        value={name}
-                        onChange={onChange}
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="email"
-                        placeholder="Email Address"
-                        name="email"
-                        value={email}
-                        onChange={onChange}
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Phone Number"
-                        name="phone"
-                        value={phone}
-                        onChange={onChange}
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder="Your Account Password"
-                        name="password"
-                        value={password}
-                        onChange={onChange}
-                        minLength="6"
-                        required
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder="Admin Creation Key (optional)"
-                        name="secret_key"
-                        value={formData.secret_key}
-                        onChange={onChange}
-                        style={{ margin: '10px 0', padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                    />
-                </div>
-                <input type="submit" value="Sign Up" style={{ backgroundColor: '#FF6F00', color: '#FFFFFF', padding: '10px 20px', border: 'none', cursor: 'pointer', width: '100%' }} />
-            </form>
+        <div className={styles.authContainer}>
+            <div className={styles.authCard}>
+                <h1 className={styles.authTitle}>Sign Up</h1>
+                {message && <p className={`${styles.message} ${styles.success}`}>{message}</p>}
+                {error && <p className={`${styles.message} ${styles.error}`}>{error}</p>}
+                <form onSubmit={onSubmit}>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            name="name"
+                            value={name}
+                            onChange={onChange}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            name="email"
+                            value={email}
+                            onChange={onChange}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="text"
+                            placeholder="Phone Number"
+                            name="phone"
+                            value={phone}
+                            onChange={onChange}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="password"
+                            placeholder="Your Account Password"
+                            name="password"
+                            value={password}
+                            onChange={onChange}
+                            minLength="6"
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="password"
+                            placeholder="Admin Creation Key (optional)"
+                            name="secret_key"
+                            value={secret_key}
+                            onChange={onChange}
+                            className={styles.input}
+                        />
+                    </div>
+                    <button type="submit" className={styles.button}>Sign Up</button>
+                </form>
+            </div>
         </div>
     );
 };
