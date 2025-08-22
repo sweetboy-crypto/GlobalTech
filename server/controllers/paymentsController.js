@@ -63,47 +63,38 @@ const verifyPaymentWebhook = async (req, res) => {
         const event = JSON.parse(req.body.toString());
 
         if (event.event === 'charge.success') {
-            const reference = event.data.reference;
-            try {
-                const payment = await Payment.findOne({ gateway_reference: reference });
-                if (payment) {
-                    payment.status = 'paid';
-                    await payment.save();
+        const reference = event.data.reference;
+        const payment = await Payment.findOne({ gateway_reference: reference });
+        if (payment) {
+            payment.status = 'paid';
+            await payment.save();
 
-                    // Create a log entry
-                    const log = new Log({
-                        event_type: 'payment.success',
-                        details: {
-                            payment_id: payment._id,
-                            user_id: payment.user_id,
-                            gateway: 'Paystack',
-                            reference: reference
-                        }
-                    });
-                    await log.save();
-
-                    // Here you would typically trigger other actions,
-                    // like sending a confirmation email or unlocking features for the user.
-
-                    // Send email notification
-                    const user = await User.findById(payment.user_id);
-                    if (user) {
-                        const sendEmail = require('../utils/sendEmail');
-                        await sendEmail({
-                            email: user.email,
-                            subject: 'Payment Received!',
-                            message: `Hi ${user.name},\n\nWe have successfully received your payment of NGN ${payment.amount_minor / 100}.\n\nYou can now proceed to create a new package.\n\nThank you for using ParcelSim Express.`
-                        });
-                    }
+            const log = new Log({
+                event_type: 'payment.success',
+                details: {
+                    payment_id: payment._id,
+                    user_id: payment.user_id,
+                    gateway: 'Paystack',
+                    reference: reference
                 }
-            } catch (err) {
-                console.error(err.message);
+            });
+            await log.save();
+            
+            const user = await User.findById(payment.user_id);
+            if (user) {
+                const sendEmail = require('../utils/sendEmail');
+                await sendEmail({
+                    email: user.email,
+                    subject: 'Payment Received!',
+                    message: `Hi ${user.name},\n\nWe have successfully received your payment of NGN ${payment.amount_minor / 100}.\n\nYou can now proceed to create a new package.\n\nThank you for using ParcelSim Express.`
+                });
             }
         }
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(400);
-    }
+    res.sendStatus(200);
+} catch (err) {
+    console.error("Webhook processing error:", err.message);
+    res.sendStatus(400); // Send a bad request status if parsing fails
+}
 };
 
 
