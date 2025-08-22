@@ -46,10 +46,7 @@ const createPackage = async (req, res) => {
         }
 
         // Simple check to see if user has ever paid.
-        const successfulPayments = await Payment.find({ user_id: req.user.id, status: 'paid' });
-        if (successfulPayments.length === 0) {
-            return res.status(403).json({ msg: 'A successful payment is required to create a package.' });
-        }
+        
 
         const {
             origin_city, origin_country, destination_city, destination_country,
