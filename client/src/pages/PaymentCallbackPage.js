@@ -20,7 +20,7 @@ const PaymentCallbackPage = () => {
 
         // Redirect to a dashboard or home page after a few seconds
         setTimeout(() => {
-            navigate('/dashboard'); // Assuming a dashboard route exists
+            navigate('/create-package'); // Assuming a create package route exists
         }, 5000);
 
     }, [location, navigate]);
