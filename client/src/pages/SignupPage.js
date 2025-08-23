@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import styles from './AuthForm.module.css';
 
@@ -18,7 +19,7 @@ const SignupPage = () => {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
-        e.preventDefault();
+         e.preventDefault();
         setMessage('');
         setError('');
         try {
@@ -32,7 +33,7 @@ const SignupPage = () => {
     return (
         <div className={styles.authContainer}>
             <div className={styles.authCard}>
-                <h1 className={styles.authTitle}>Sign Up</h1>
+                <h1 className={styles.authTitle}>Create Your Account</h1>
                 {message && <p className={`${styles.message} ${styles.success}`}>{message}</p>}
                 {error && <p className={`${styles.message} ${styles.error}`}>{error}</p>}
                 <form onSubmit={onSubmit}>
@@ -42,7 +43,7 @@ const SignupPage = () => {
                             placeholder="Name"
                             name="name"
                             value={name}
-                            onChange={onChange}
+                             onChange={onChange}
                             required
                             className={styles.input}
                         />
@@ -67,7 +68,7 @@ const SignupPage = () => {
                             onChange={onChange}
                             required
                             className={styles.input}
-                        />
+                           />
                     </div>
                     <div className={styles.formGroup}>
                         <input
@@ -91,8 +92,11 @@ const SignupPage = () => {
                             className={styles.input}
                         />
                     </div>
-                    <button type="submit" className={styles.button}>Sign Up</button>
+                     <button type="submit" className={styles.button}>Sign Up</button>
                 </form>
+                <p style={{marginTop: '1rem'}}>
+                    Already have an account? <Link to="/login" style={{fontWeight: 'bold'}}>Log In</Link>
+                </p>
             </div>
         </div>
     );
