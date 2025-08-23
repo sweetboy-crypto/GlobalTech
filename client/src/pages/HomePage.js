@@ -45,7 +45,7 @@ const HomePage = () => {
                     <Player
                         autoplay
                         loop
-                        src="https://lottie.host/e8a329e9-1b79-4269-8283-3b1065793fd3/v4Yg5nS2R0.json"
+                       src="https://lottie.host/cf463152-549b-4e4f-9b93-b1f4882cddfa/4sf99sV8aB.json"
                         style={{ maxWidth: '400px', margin: '0 auto' }}
                     />
                 </div>
