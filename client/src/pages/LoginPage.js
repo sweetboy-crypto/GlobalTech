@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import styles from './AuthForm.module.css';
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
-        e.preventDefault();
+         e.preventDefault();
         try {
             await login(email, password);
             navigate('/dashboard');
@@ -29,7 +29,7 @@ const LoginPage = () => {
     return (
         <div className={styles.authContainer}>
             <div className={styles.authCard}>
-                <h1 className={styles.authTitle}>Login</h1>
+                <h1 className={styles.authTitle}>Login to Your Account</h1>
                 {message && <p className={`${styles.message} ${styles.error}`}>{message}</p>}
                 <form onSubmit={onSubmit}>
                     <div className={styles.formGroup}>
@@ -57,9 +57,11 @@ const LoginPage = () => {
                     </div>
                     <button type="submit" className={styles.button}>Login</button>
                 </form>
+                <p style={{marginTop: '1rem'}}>
+                    Don't have an account? <Link to="/signup" style={{fontWeight: 'bold'}}>Sign Up</Link>
+                </p>
             </div>
         </div>
     );
 };
-
 export default LoginPage;
