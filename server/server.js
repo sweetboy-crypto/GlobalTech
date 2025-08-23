@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const { startStatusUpdateCron } = require('./services/cronJobs');
 
 // Load env vars
 dotenv.config({ path: './.env' });
@@ -10,6 +11,9 @@ const app = express();
 
 // Connect to database
 connectDB();
+
+// Start cron jobs
+startStatusUpdateCron();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
