@@ -19,18 +19,7 @@ const startStatusUpdateCron = () => {
         pkg.current_status = 'InTransit';
         await pkg.save();
 
-        const history = new StatusHistory({
-          package_id: pkg._id,
-          changed_by: null, // Indicates an automated change
-          old_status: 'NotYetInTransit',
-          new_status: 'InTransit',
-          note: 'Package has started its journey based on the scheduled transit time.'
-        });
-        for (const pkg of packagesToTransit) {
-        pkg.current_status = 'InTransit';
-        await pkg.save();
-
-        const history = new StatusHistory({
+       const history = new StatusHistory({
           package_id: pkg._id,
           changed_by: null, // Indicates an automated change
           old_status: 'NotYetInTransit',
@@ -46,7 +35,8 @@ const startStatusUpdateCron = () => {
         current_status: 'InTransit',
         delivery_date: { $lte: now }
       });
-        for (const pkg of packagesToDeliver) {
+
+      for (const pkg of packagesToDeliver) {
         pkg.current_status = 'Delivered';
         await pkg.save();
 
