@@ -27,7 +27,7 @@ const DashboardPage = () => {
     }, [user, needsToAcceptTerms]);
 
     return (
-        <div>
+        <>
             {needsToAcceptTerms && <TermsModal onAccept={reloadUser} />}
             <div className={styles.dashboardContainer} style={{ filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
                 <div className={styles.header}>
