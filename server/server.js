@@ -29,6 +29,7 @@ app.use('/api/packages', require('./routes/packages'));
 // Admin Routes
 app.use('/api/admin/dashboard', require('./routes/admin/dashboard'));
 app.use('/api/admin/users', require('./routes/admin/users'));
+app.use('/api/admin/payments', require('./routes/admin/payments'));
 
 const PORT = process.env.PORT || 5000;
 
