@@ -14,6 +14,7 @@ import CreatePackagePage from './pages/CreatePackagePage';
 import TrackingPage from './pages/TrackingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
+import PaymentManagementPage from  './pages/admin/PaymentManagementPage';
 import HomePage from './pages/HomePage';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
             <Route index element={<AdminDashboardPage />} />
             <Route path="users" element={<UserManagementPage />} />
+            <Route path="payments" element={<PaymentManagementPage />} />
           </Route>
 
         </Routes>
