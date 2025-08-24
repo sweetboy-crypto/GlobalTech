@@ -15,6 +15,7 @@ import TrackingPage from './pages/TrackingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
 import PaymentManagementPage from  './pages/admin/PaymentManagementPage';
+import PackageManagementPage from './pages/admin/PackageManagementPage';
 import HomePage from './pages/HomePage';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route index element={<AdminDashboardPage />} />
             <Route path="users" element={<UserManagementPage />} />
             <Route path="payments" element={<PaymentManagementPage />} />
+            <Route path="packages" element={<PackageManagementPage />} />
           </Route>
 
         </Routes>
