@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Player } from '@lottiefiles/react-lottie-player';
 import logo from '../assets/logo.svg'; 
+import AnimatedIcon from '../components/AnimatedIcon'; // Import our new component
 
 const HomePage = () => {
     return (
@@ -13,7 +13,7 @@ const HomePage = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}>
-     <img src={logo} alt="ParcelSim Express Logo" style={{ height: '50px', marginBottom: '1rem' }} />
+                <img src={logo} alt="ParcelSim Express Logo" style={{ height: '50px', marginBottom: '1rem' }} />
 
                 <h1 style={{ fontSize: '3.5rem', color: 'var(--neutral-black)', marginBottom: '1rem' }}>
                     Reliable, Secure, and On-Time.
@@ -21,8 +21,7 @@ const HomePage = () => {
                 <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 2rem auto', color: 'var(--dark-gray)' }}>
                     Welcome to ParcelSim Express, your trusted partner for creating and managing internal tracking for packages. Our platform is built for security, reliability, and ease of use.
                 </p>
-
-                <div style={{ margin: '2rem 0' }}>
+                          <div style={{ margin: '2rem 0' }}>
                     <Link to="/signup">
                         <button style={{ 
                             backgroundColor: 'var(--primary-orange)', 
@@ -37,17 +36,11 @@ const HomePage = () => {
                             Get Started
                         </button>
                     </Link>
-                   </div>
+                </div>
             </div>
-
-            <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', padding: '4rem 1rem' }}>
-                <div style={{ flex: 1, minWidth: '300px' }}>
-                    <Player
-                        autoplay
-                        loop
-                       src="https://lottie.host/cf463152-549b-4e4f-9b93-b1f4882cddfa/4sf99sV8aB.json"
-                        style={{ maxWidth: '400px', margin: '0 auto' }}
-                    />
+<div className="container" style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', padding: '4rem 1rem' }}>
+                <div style={{ flex: 1, minWidth: '300px', display: 'flex', justifyContent: 'center' }}>
+                    <AnimatedIcon />
                 </div>
                 <div style={{ flex: 2, minWidth: '300px' }}>
                     <div style={{ maxWidth: '600px' }}>
@@ -63,7 +56,7 @@ const HomePage = () => {
                             <h3 style={{ color: 'var(--primary-orange)', fontSize: '1.5rem' }}>Dedicated Support</h3>
                             <p>Our platform is backed by a commitment to reliability and support, ensuring your logistics run smoothly.</p>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,3 +64,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+                                
