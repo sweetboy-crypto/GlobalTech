@@ -1,37 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import styles from './Header.module.css';
 
 const Header = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
+        setIsOpen(false);
         navigate('/login');
     };
+    const closeMenu = () => setIsOpen(false);
 
-    return (
-        <header style={{ backgroundColor: '#000000', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Link to={user ? "/dashboard" : "/"} style={{ color: '#FF6F00', textDecoration: 'none', fontSize: '24px', fontWeight: 'bold' }}>
+    const NavLinks = () => (
+        <>
+            <Link to="/track" onClick={closeMenu}>Track Package</Link>
+            {user ? (
+                <>
+                    {user.role === 'admin' && (
+                        <Link to="/admin" className={styles.adminLink} onClick={closeMenu}>Admin</Link>
+                    )}
+                    <Link to="/dashboard" onClick={closeMenu}>Dashboard</Link>
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <>
+                    <Link to="/login" onClick={closeMenu}>Login</Link>
+                    <Link to="/signup" onClick={closeMenu}>Sign Up</Link>
+                </>
+            )}
+        </>
+    );
+return (
+        <header className={styles.header}>
+            <Link to={user ? "/dashboard" : "/"} className={styles.logo}>
                 ParcelSim Express
             </Link>
-            <nav>
-                <Link to="/track" style={{ color: '#FFFFFF', textDecoration: 'none', margin: '0 10px' }}>Track Package</Link>
-                {user ? (
-                    <>
-                        {user.role === 'admin' && (
-                            <Link to="/admin" style={{ color: '#FF6F00', textDecoration: 'none', margin: '0 10px' }}>Admin</Link>
-                        )}
-                        <Link to="/dashboard" style={{ color: '#FFFFFF', textDecoration: 'none', margin: '0 10px' }}>Dashboard</Link>
-                        <button onClick={handleLogout} style={{ color: '#FFFFFF', textDecoration: 'none', margin: '0 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}>Logout</button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login" style={{ color: '#FFFFFF', textDecoration: 'none', margin: '0 10px' }}>Login</Link>
-                        <Link to="/signup" style={{ color: '#FFFFFF', textDecoration: 'none', margin: '0 10px' }}>Sign Up</Link>
-                    </>
-                )}
+
+            {/* Desktop Navigation */}
+            <nav className={styles.navLinks}>
+                <NavLinks />
+            </nav>
+            
+            {/* Hamburger Icon */}
+            <button className={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
+                <div />
+                <div />
+                <div />
+            </button>
+
+            {/* Mobile Navigation */}
+            <nav className={`${styles.mobileNav} ${isOpen ? styles.open : ''}`}>
+                <NavLinks />
             </nav>
         </header>
     );
