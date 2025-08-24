@@ -31,7 +31,7 @@ const DashboardPage = () => {
             {needsToAcceptTerms && <TermsModal onAccept={reloadUser} />}
             <div className={styles.dashboardContainer} style={{ filter: needsToAcceptTerms ? 'blur(5px)' : 'none' }}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Your Dashboard</h1>
+                    <h1 className={styles.title}>Dashboard</h1>
                     <Link to="/payment" className={styles.button}>
                         Buy New Tracking Code
                     </Link>
