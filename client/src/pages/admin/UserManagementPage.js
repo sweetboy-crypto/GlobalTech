@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import tableStyles from './Table.module.css';
+import EditUserModal from '../../components/EditUserModal';
 
 const UserManagementPage = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [editingUser, setEditingUser] = useState(null);
 
+    const handleEditClick = (user) => setEditingUser(user);
+    const handleCloseModal = () => setEditingUser(null);
+    const handleSaveUser = (updatedUser) => {
+        setUsers(users.map(user => user._id === updatedUser._id ? updatedUser : user));
+    };
     const deleteUser = async (userId) => {
-        if (window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+        if (window.confirm('Are you sure you want to delete this user?')) {
             try {
                 await api.delete(`/admin/users/${userId}`);
                 setUsers(users.filter(user => user._id !== userId));
@@ -31,42 +38,29 @@ const UserManagementPage = () => {
         };
         fetchUsers();
     }, []);
+    if (loading) return <div>Loading users...</div>;
+    if (error) return <div style={{ color: 'red' }}>{error}</div>;
 
-    if (loading) {
-        return <div>Loading users...</div>;
-    }
-
-    if (error) {
-        return <div style={{ color: 'red' }}>{error}</div>;
-    }
-
- return (
+    return (
         <div>
+            <EditUserModal user={editingUser} onClose={handleCloseModal} onSave={handleSaveUser} />
             <h1 style={{ color: 'var(--primary-orange)', marginBottom: '2rem' }}>User Management</h1>
             <div className={tableStyles.tableWrapper}>
                 <table className={tableStyles.table}>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Email Verified</th>
-                            <th>KYC Status</th>
-                            <th>Actions</th>
+                            <th>Name</th><th>Email</th><th>Phone</th><th>Role</th>
+                            <th>Email Verified</th><th>KYC Status</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                           {users.map(user => (
+                        {users.map(user => (
                             <tr key={user._id}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phone}</td>
-                                <td>{user.role}</td>
-                                <td>{user.email_verified ? 'Yes' : 'No'}</td>
+                                <td>{user.name}</td><td>{user.email}</td><td>{user.phone}</td>
+                                <td>{user.role}</td><td>{user.email_verified ? 'Yes' : 'No'}</td>
                                 <td>{user.kyc_status}</td>
                                 <td>
-                                    <button style={{marginRight: '5px', cursor: 'pointer'}}>Edit</button>
+                                    <button onClick={() => handleEditClick(user)} style={{marginRight: '5px', cursor: 'pointer'}}>Edit</button>
                                     <button onClick={() => deleteUser(user._id)} style={{cursor: 'pointer', color: 'red'}}>Delete</button>
                                 </td>
                             </tr>
@@ -75,7 +69,7 @@ const UserManagementPage = () => {
                 </table>
             </div>
         </div>
-);
+    );
 };
 
 export default UserManagementPage;
